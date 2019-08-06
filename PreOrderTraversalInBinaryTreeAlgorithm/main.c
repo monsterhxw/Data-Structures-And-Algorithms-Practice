@@ -40,7 +40,7 @@ void traverseBinaryTreeByPreOrder(BiTree tree, int level) {
 int main() {
     int level = 1;
     BiTree tree = NULL;
-    // 输入 'AB D CE  '
+    // 输入 'ABD  E  CF   '
     printf("请输入 'ABD  E  CF   '\n");
     printf("\n");
     createBinaryTreeByPreOrder(&tree);
