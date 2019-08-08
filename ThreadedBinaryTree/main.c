@@ -38,31 +38,32 @@ void constructBinaryTreeFromPreOrder(ThreadedBinaryTree *tree) {
 }
 
 // 中序遍历线索化
-void InOrderTraversal(ThreadedBinaryTree tree) {
+void inOrderThreading(ThreadedBinaryTree tree) {
     if (tree) {
         // 递归左孩子线索化
-        InOrderTraversal(tree->lChild);
+        inOrderThreading(tree->lChild);
 
         // 如果该结点没有左孩子，设置 lTag 为 THREAD，并把 lChild 指向刚刚访问的结点
         if (!tree->lChild) {
             tree->lTag = THREAD;
             tree->lChild = pre;
         }
-        // 如果 pre 结点无右孩子，设置 pre 的 rTag 为 THREAD，并将 rChild 指向 T 作为 pre 的后继
+        // 如果 pre 结点无右孩子，说明 pre 的后继应该为 tree
+        // 设置 pre 的 rTag 为 THREAD，并将 rChild 指向 tree 作为 pre 的后继
         if (!pre->rChild) {
             pre->rTag = THREAD;
             pre->rChild = tree;
         }
-
+        // 将当前结点 tree 赋给 pre
         pre = tree;
 
         // 递归右孩子线索化
-        InOrderTraversal(tree->rChild);
+        inOrderThreading(tree->rChild);
     }
 }
 
-
-void InOrderThreading(ThreadedBinaryTree *p, ThreadedBinaryTree T) {
+void initInOrderThreading(ThreadedBinaryTree *p, ThreadedBinaryTree T) {
+    // 指向根结点
     *p = (ThreadedBinaryNode *) malloc(sizeof(ThreadedBinaryNode));
     (*p)->lTag = LINK;
     (*p)->rTag = THREAD;
@@ -76,9 +77,11 @@ void InOrderThreading(ThreadedBinaryTree *p, ThreadedBinaryTree T) {
         // 将 p 赋值给 pre
         pre = *p;
         // 中序遍历线索化
-        InOrderTraversal(T);
+        inOrderThreading(T);
+        // 最后遍历的结点指向根结点
         pre->rChild = *p;
         pre->lTag = THREAD;
+        // 根结点的后继指向最后遍历的结点
         (*p)->rChild = pre;
     }
 }
@@ -90,6 +93,6 @@ int main() {
     printf("请输入 'ABDH__I__EJ___CF__G__'\n");
     printf("\n");
     constructBinaryTreeFromPreOrder(&T);
-    InOrderThreading(&P, T);
+    initInOrderThreading(&P, T);
     return 0;
 }
