@@ -19,3 +19,7 @@
 - Linear Search Algorithm
 	
 	[C program for Linear Search Algorithm](https://github.com/monsterhxw/Data-Structures-And-Algorithms-Practice/blob/master/LinearSearch/main.c)
+	
+- Binary Search Algorithm
+	
+	[C program for Binary Search Algorithm](https://github.com/monsterhxw/Data-Structures-And-Algorithms-Practice/blob/master/BinarySearch/main.c)
