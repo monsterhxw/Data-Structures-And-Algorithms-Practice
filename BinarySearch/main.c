@@ -5,7 +5,7 @@ int binarySearchWithIterative(int arr[], int key, int low, int high) {
     while (low <= high) {
         int mid = (low + high) / 2;
         if (key == arr[mid]) {
-            return mid; //找到后返回下标
+            return mid;
         } else if (key < arr[mid]) {
             high = mid - 1;
         } else {
