@@ -23,3 +23,7 @@
 - Binary Search Algorithm
 	
 	[C program for Binary Search Algorithm](https://github.com/monsterhxw/Data-Structures-And-Algorithms-Practice/blob/master/BinarySearch/main.c)
+
+- Interpolation Search Algorithm
+	
+	[C program for Interpolation Search Algorithm](https://github.com/monsterhxw/Data-Structures-And-Algorithms-Practice/blob/master/InterpolationSearch/main.c)
