@@ -15,3 +15,7 @@
 - Threaded Binary Tree Algorithm
 	
 	[C program for Threaded Binary Tree Algorithm](https://github.com/monsterhxw/Data-Structures-And-Algorithms-Practice/blob/master/ThreadedBinaryTree/main.c)
+
+- Linear Search Algorithm
+	
+	[C program for Linear Search Algorithm](https://github.com/monsterhxw/Data-Structures-And-Algorithms-Practice/blob/master/LinearSearch/main.c)
