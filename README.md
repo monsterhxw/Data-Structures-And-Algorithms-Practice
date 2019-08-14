@@ -27,3 +27,7 @@
 - Interpolation Search Algorithm
 	
 	[C program for Interpolation Search Algorithm](https://github.com/monsterhxw/Data-Structures-And-Algorithms-Practice/blob/master/InterpolationSearch/main.c)
+
+- Binary Search Tree Algorithm(Binary Sort Tree Algorithm)
+	
+	[C program for Binary Search Tree Algorithm](https://github.com/monsterhxw/Data-Structures-And-Algorithms-Practice/blob/master/BinarySearchTree/main.c)
