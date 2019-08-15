@@ -13,18 +13,7 @@ typedef struct BinaryTreeNode {
     struct BinaryTreeNode *right;
 } BinaryTreeNode, *BinaryTree;
 
-BinaryTreeNode *createBinaryTreeNode(int value) {
-    BinaryTree newNode = (BinaryTree) malloc(sizeof(BinaryTreeNode));
-    if (!newNode) {
-        printf(stderr, "Out of memory!!! (create_node)\n");
-        exit(1);
-    }
-    newNode->data = value;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
-}
-
+// 根据 key 值查找树
 BinaryTreeNode *searchNode(BinaryTree tree, int key) {
     // 树空返回 NULL
     if (!tree) {
@@ -38,12 +27,25 @@ BinaryTreeNode *searchNode(BinaryTree tree, int key) {
     }
 }
 
+// 创建结点
+BinaryTreeNode *createNode(int value) {
+    BinaryTree newNode = (BinaryTree) malloc(sizeof(BinaryTreeNode));
+    if (!newNode) {
+        printf(stderr, "Out of memory!!! (create_node)\n");
+        exit(1);
+    }
+    newNode->data = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
 // insert a new node into the BST
 Status insertNode(BinaryTree *tree, int value) {
     // 空树 直接插入新结点返回成功
     if (!*tree) {
         // 将创建的新结点赋给当前结点
-        *tree = createBinaryTreeNode(value);
+        *tree = createNode(value);
         return TRUE;
     } else if (searchNode(*tree, value)) {
         // 树不为空，检查树中是否存在值与 value 相同的结点，若存在返回插入失败
@@ -66,6 +68,7 @@ void createBinarySearchTree(BinaryTree *tree, int arr[], int n) {
         i++;
     }
 }
+
 // function to find the minimum value in a node
 BinaryTreeNode *findMinimumValueNode(BinaryTree tree) {
     if (!tree) {
@@ -85,33 +88,33 @@ BinaryTreeNode *deleteNode(BinaryTree *tree, int key) {
     if (key < (*tree)->data) {
         (*tree)->left = deleteNode(&(*tree)->left, key);
     }
-    // 树不为空，且待删除结点的值 key 大于当前结点的值，则递归其右子树
+        // 树不为空，且待删除结点的值 key 大于当前结点的值，则递归其右子树
     else if (key > (*tree)->data) {
-        (*tree)->right= deleteNode(&(*tree)->right, key);
+        (*tree)->right = deleteNode(&(*tree)->right, key);
     }
-    // 树不为空，且待删除结点的值 key 等于当前结点的值，进行删除操作
+        // 树不为空，且待删除结点的值 key 等于当前结点的值，进行删除操作
     else {
         // 1. 待删除结点没有孩子，直接删除结点
         if (!(*tree)->left && !(*tree)->right) {
             free(*tree);
             return NULL;
         }
-        // 2. 待删除结点只有一个孩子，将孩子替换待删除结点
+            // 2. 待删除结点只有一个孩子，将孩子替换待删除结点
         else if (!(*tree)->left || !(*tree)->right) {
             BinaryTree temp;
             // 待删除结点只有右孩子，没有左孩子，将右孩子替换待删除结点
             if (!(*tree)->left) {
                 temp = (*tree)->right;
             }
-            // 待删除结点只有左孩子，没有右孩子，将左孩子替换待删除结点
+                // 待删除结点只有左孩子，没有右孩子，将左孩子替换待删除结点
             else {
                 temp = (*tree)->left;
             }
             free(*tree);
             return temp;
         }
-        // 3. 待删除结点既有左孩子又有右孩子，找到待删除结点的直接后继（即右孩子中最小（最左）的结点）或者直接前驱（即左孩子孩子中最大（最右）的结点）
-        //    用该结点（直接后继或直接前驱）来替换待删除结点，然后删除该结点（直接后继或直接前驱）。
+            // 3. 待删除结点既有左孩子又有右孩子，找到待删除结点的直接后继（即右孩子中最小（最左）的结点）或者直接前驱（即左孩子孩子中最大（最右）的结点）
+            //    用该结点（直接后继或直接前驱）来替换待删除结点，然后删除该结点（直接后继或直接前驱）。
         else {
             // 获得直接后继结点
             BinaryTree successor = findMinimumValueNode((*tree)->right);
@@ -139,10 +142,10 @@ void inOrderTraversal(BinaryTree tree, int level) {
 }
 
 int main() {
-    int arr[] = {1, 2, 3, 4, 5, 6, 7};
+    int arr[] = {3, 2, 5, 1, 4};
     int n = sizeof(arr) / sizeof(arr[0]);
     int level = 1;
-    int key = 3;
+    int key = 5;
     BinaryTree tree;
 
     createBinarySearchTree(&tree, arr, n);
