@@ -32,6 +32,6 @@
 	
 	[C program for Binary Search Tree Algorithm](https://github.com/monsterhxw/Data-Structures-And-Algorithms-Practice/blob/master/BinarySearchTree/main.c)
 
-- Binary Search Tree Algorithm(Binary Sort Tree Algorithm)
+- AVL Tree Algorithm(Height Balanced Binary Search Tree Algorithm)
 	
-	[C program for AVL Tree Algorithm(Height Balanced Binary Search Tree Algorithm)](https://github.com/monsterhxw/Data-Structures-And-Algorithms-Practice/blob/master/AVLTree/main.c)
+- [C program for AVL Tree Algorithm(Height Balanced Binary Search Tree Algorithm)](https://github.com/monsterhxw/Data-Structures-And-Algorithms-Practice/blob/master/AVLTree/main.c)
