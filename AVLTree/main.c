@@ -160,6 +160,89 @@ AVLTreeNode *insertNode(AVLTree *tree, int data) {
     return *tree;
 }
 
+// 查找非空的二叉搜索树中的最小 data 值的结点，需要注意的整棵树不需要搜索
+AVLTreeNode *findMinimumValueNode(AVLTree tree) {
+    if (!tree) {
+        return NULL;
+    } else if (tree->left) {
+        return findMinimumValueNode(tree->left);
+    }
+    return tree;
+}
+
+AVLTreeNode *deleteNode(AVLTree *tree, int key) {
+    // STEP 1. 进行 Binary Search Tree 删除
+    // 树为空，返回 NULL
+    if (!*tree) {
+        return *tree;
+    }
+    // 树不为空，且待删除结点的值 key 小于当前结点的值，则递归其左子树
+    if (key < (*tree)->data) {
+        (*tree)->left = deleteNode(&(*tree)->left, key);
+    }
+    // 树不为空，且待删除结点的值 key 大于当前结点的值，则递归其右子树
+    else if (key > (*tree)->data) {
+        (*tree)->right = deleteNode(&(*tree)->right, key);
+    }
+        // 树不为空，且待删除结点的值 key 等于当前结点的值，进行删除操作
+    else {
+        // 1. 待删除结点没有孩子，直接删除结点
+        if (!(*tree)->left && !(*tree)->right) {
+            free(*tree);
+            return NULL;
+        }
+            // 2. 待删除结点只有一个孩子，将孩子替换待删除结点
+        else if (!(*tree)->left || !(*tree)->right) {
+            AVLTree temp;
+            // 待删除结点只有右孩子，没有左孩子，将右孩子替换待删除结点
+            if (!(*tree)->left) {
+                temp = (*tree)->right;
+            }
+                // 待删除结点只有左孩子，没有右孩子，将左孩子替换待删除结点
+            else {
+                temp = (*tree)->left;
+            }
+            free(*tree);
+            return temp;
+        }
+            /* 3. 待删除结点既有左孩子又有右孩子，找到待删除结点的直接后继（即右孩子中最小（最左）的结点）或者直接前驱（即左孩子孩子中最大（最右）的结点），用该结点（直接后继或直接前驱）来替换待删除结点，然后删除该结点（直接后继或直接前驱）。*/
+        else {
+            // 获得直接 in-order 后继结点(右子树最小值)
+            AVLTree successor = findMinimumValueNode((*tree)->right);
+            // 将直接后继结点的值赋给待删除结点的值
+            (*tree)->data = successor->data;
+            // 删除直接后继结点
+            (*tree)->right = deleteNode(&(*tree)->right, successor->data);
+        }
+    }
+    // STEP 2. 更新当前节点的高度
+    (*tree)->height = max(height((*tree)->left), height((*tree)->right)) + 1;
+    // STEP 3. 获取该节点的平衡因子(检查该节点是否不平衡)
+    int balance = getBalance(*tree);
+    // 如果这个结点是不平衡，那么判断 LL(右旋)，LR(先左旋，再右旋)，RR(左旋)，RL（先右旋，再左旋）这四种情况
+    // a. Left Left Case
+    if (balance > 1 && getBalance((*tree)->left) >= 0) {
+        return rightRotate(&(*tree));
+    }
+    // b. Left Right Case
+    if (balance > 1 && getBalance((*tree)->left) < 0) {
+        // left rotate left subtree
+        (*tree)->left = leftRotate((*tree)->left);
+        return rightRotate(&(*tree));
+    }
+    // c. Right Right Case
+    if (balance < -1 && getBalance((*tree)->right) <= 0) {
+        return leftRotate(&(*tree));
+    }
+    // d. Right Left Case
+    if (balance < -1 && getBalance((*tree)->right) > 0) {
+        // right rotate right subtree
+        (*tree)->right = rightRotate(&(*tree)->right);
+        return leftRotate(&(*tree));
+    }
+    return *tree;
+}
+
 // 访问二叉树结点的具体操作
 void printDataAndLevel(int data, int level) {
     printf("%d at %d level\n", data, level);
@@ -189,6 +272,7 @@ int main() {
     int arr[] = {3, 2, 1, 4, 5, 6, 7, 10, 9, 8};
     int n = sizeof(arr) / sizeof(arr[0]);
     int level = 1;
+    int key = 7;
     AVLTree tree;
 
 /* The constructed AVL Tree would be
@@ -204,5 +288,19 @@ int main() {
     printf("In-Order traversal of the constructed AVL tree is \n");
     inOrderTraversal(tree, level);
     // 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
+
+/* The AVL Tree after deletion of 7
+                        4
+                     /     \
+                   2        8
+                  / \      / \
+                 1    3   6   9
+                         /     \
+                        5      10
+*/
+    tree = deleteNode(&tree, key);
+    printf("In-Order traversal after deletion of %d \n", key);
+    inOrderTraversal(tree, level);
+    // 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 8 -> 9 -> 10
     return 0;
 }
